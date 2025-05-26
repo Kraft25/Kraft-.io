@@ -1,25 +1,202 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Maquette 3D en AR</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maquette 3D en Réalité Augmentée</title>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #f72585;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        model-viewer:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        button[slot="ar-button"] {
+            background: var(--primary-color) !important;
+            color: white !important;
+            border: none !important;
+            padding: 12px 25px !important;
+            border-radius: 50px !important;
+            font-family: 'Poppins', sans-serif !important;
+            font-weight: 600 !important;
+            font-size: 1rem !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3) !important;
+            transition: all 0.3s ease !important;
+            position: absolute !important;
+            bottom: 20px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+        }
+
+        button[slot="ar-button"]:hover {
+            background: var(--secondary-color) !important;
+            transform: translateX(-50%) scale(1.05) !important;
+            box-shadow: 0 6px 20px rgba(58, 12, 163, 0.4) !important;
+        }
+
+        button[slot="ar-button"]::before {
+            content: "👓";
+            font-size: 1.2rem;
+        }
+
+        .qr-instructions {
+            background: var(--light-color);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 30px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--dark-color);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            model-viewer {
+                height: 400px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Maquette Architecture</h1>
-    <p>Scannez le QR Code et ouvrez cette page sur mobile pour voir en AR.</p>
+    <header>
+        <h1>Maquette Architecturale 3D</h1>
+        <p class="subtitle">Visualisez votre projet en réalité augmentée</p>
+    </header>
 
-    <!-- Afficher le modèle 3D -->
-    <model-viewer
-        src="maquette.glb"
-        ar
-        ar-modes="webxr scene-viewer quick-look"
-        camera-controls
-        alt="Maquette 3D"
-        style="width: 100%; height: 500px;">
-        
-        <button slot="ar-button" style="background: white; border: none; padding: 10px; border-radius: 5px;">
-            👓 Voir en Réalité Augmentée
-        </button>
-    </model-viewer>
+    <div class="container">
+        <model-viewer
+            src="maquette.glb"
+            ar
+            ar-modes="webxr scene-viewer quick-look"
+            camera-controls
+            alt="Maquette 3D"
+            auto-rotate
+            rotation-per-second="30deg"
+            exposure="0.8"
+            shadow-intensity="1">
+            
+            <button slot="ar-button">
+                Voir en Réalité Augmentée
+            </button>
+        </model-viewer>
+
+        <div class="qr-instructions">
+            <h3>Comment visualiser en AR ?</h3>
+            <p>Scannez ce QR Code avec votre appareil mobile pour accéder à la maquette en réalité augmentée :</p>
+            <div class="qr-code">
+                <!-- Remplacez par votre vrai QR code -->
+                [QR Code à insérer ici]
+            </div>
+            <p>Ouvrez cette page sur votre smartphone et appuyez sur le bouton "Voir en AR"</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2023 Maquette Architecturale 3D | Tous droits réservés</p>
+    </footer>
 </body>
 </html>
